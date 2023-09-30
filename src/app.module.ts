@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { RolesModule } from './roles/roles.module';
 import { OpenaiApiModule } from './openai-api/openai-api.module';
+import { OptimizationsModule } from './optimizations/optimizations.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { OpenaiApiModule } from './openai-api/openai-api.module';
     AuthModule,
     RolesModule,
     OpenaiApiModule,
+    OptimizationsModule,
   ],
   controllers: [AppController],
   providers: [],
