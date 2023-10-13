@@ -6,6 +6,7 @@ import Roles from '../roles/enums/role.enum';
 import { AuthUserJwtGuard } from '../auth/guards/auth-user-jwt.guard';
 import { RoleGuard } from '../roles/guards/role.guard';
 import { ApiTags } from '@nestjs/swagger';
+import OpenAI from 'openai';
 
 @ApiTags('Openai-api')
 @Controller('openai-api')
@@ -15,7 +16,9 @@ export class OpenaiApiController {
 
   @Post()
   @Role([Roles.ADMIN])
-  create(@Body() dto: CreateOpenaiApiDto) {
+  create(
+    @Body() dto: CreateOpenaiApiDto,
+  ): Promise<OpenAI.Chat.Completions.ChatCompletion> {
     return this.openaiApiService.create(dto);
   }
 }

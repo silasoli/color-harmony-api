@@ -5,8 +5,7 @@ import { OpenaiApiService } from '../openai-api/openai-api.service';
 
 @Injectable()
 export class OptimizationsService {
-  constructor(private readonly openaiApiService: OpenaiApiService) { }
-
+  constructor(private readonly openaiApiService: OpenaiApiService) {}
 
   public async getCSSFromLinksInHead(url: string): Promise<string> {
     const browser = await puppeteer.launch({
@@ -37,13 +36,29 @@ export class OptimizationsService {
     return cssText;
   }
 
+  private createOptimizationRequest(css: string): string {
+    let request: string;
+    const user = { darkmode: true, fontsize: '28px' };
+
+    if (user.darkmode) {
+      request += 'crie um estilo modo escuro e adicione background-color: #333; color: #fff';
+    }
+
+    if (user.fontsize) {
+      request += `deixe todas as fontes no tamanho ${user.fontsize}`;
+    }
+
+    return `aplique os ajustes, me retorne apenas o código pronto para usar: ${request}\n nesse css: ${css}`;
+  }
+
   public async requestOptimizationToIA(css: string) {
-    return this.openaiApiService.create({ question: css });
+    const optimization = await this.openaiApiService.create({ question: css });
+    return optimization?.choices[0].message.content.replace(/\n/g, '');
   }
 
   public async createOptimization(dto: CreateOptimizationDto): Promise<any> {
     const css = await this.getCSSFromLinksInHead(dto.url);
-    console.log(css)
-    return this.requestOptimizationToIA(css);
+    const request = this.createOptimizationRequest(css);
+    return this.requestOptimizationToIA(request);
   }
 }

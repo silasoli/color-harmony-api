@@ -6,7 +6,9 @@ import OpenAI from 'openai';
 export class OpenaiApiService {
   private openApiKey = process.env.OPEN_API_KEY;
 
-  public async create(dto: CreateOpenaiApiDto): Promise<any> {
+  public async create(
+    dto: CreateOpenaiApiDto,
+  ): Promise<OpenAI.Chat.Completions.ChatCompletion> {
     const openai = new OpenAI({
       apiKey: this.openApiKey,
     });
