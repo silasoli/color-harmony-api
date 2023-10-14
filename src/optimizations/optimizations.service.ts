@@ -39,17 +39,17 @@ export class OptimizationsService {
 
   private createOptimizationRequest(css: string): string {
     let request: string;
-    const user = { darkmode: true, fontsize: '28px' };
-
-    // if (user.darkmode) {
-    //   request +=
-    //     'Por favor, crie um estilo de modo escuro para o site. Defina o background-color do corpo do site e outros elementos como #333, e mude o color de todos os elementos de texto para branco';
-    // }
+    const user = { darkmode: true, fontsize: '5rem' };
 
     if (user.darkmode) {
       request +=
-        'crie um estilo modo escuro e adicione background-color: #333; color: #fff';
+        'Por favor, crie um estilo de modo escuro para o site. Defina o background-color do corpo do site e outros elementos como #333, e mude o color de todos os elementos de texto para branco';
     }
+
+    // if (user.darkmode) {
+    //   request +=
+    //     'crie um estilo modo escuro e adicione background-color: #333; color: #fff';
+    // }
 
     if (user.fontsize) {
       request += `deixe todas as fontes no tamanho ${user.fontsize}`;
