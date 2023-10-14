@@ -7,7 +7,7 @@ import { CreateOptimizationStyleDto } from './dto/create-optimization-style.dto'
 
 @ApiTags('Optimizations')
 @Controller('optimizations')
-// @UseGuards(AuthUserJwtGuard)
+@UseGuards(AuthUserJwtGuard)
 export class OptimizationsController {
   constructor(private readonly optimizationsService: OptimizationsService) {}
 
