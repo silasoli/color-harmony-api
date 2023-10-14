@@ -20,7 +20,7 @@ export class OpenaiApiService {
           content: dto.question,
         },
       ],
-      model: 'gpt-4-32k',
+      model: 'gpt-3.5-turbo',
     };
     const chatCompletion: OpenAI.Chat.ChatCompletion =
       await openai.chat.completions.create(params);
