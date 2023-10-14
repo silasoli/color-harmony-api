@@ -2,9 +2,10 @@ import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { OptimizationsService } from './optimizations.service';
 import { CreateOptimizationScrapingDto } from './dto/create-optimization-scraping.dto';
 import { AuthUserJwtGuard } from '../auth/guards/auth-user-jwt.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateOptimizationStyleDto } from './dto/create-optimization-style.dto';
 
+@ApiBearerAuth()
 @ApiTags('Optimizations')
 @Controller('optimizations')
 @UseGuards(AuthUserJwtGuard)

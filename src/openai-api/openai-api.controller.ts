@@ -5,9 +5,10 @@ import { Role } from '../roles/decorators/roles.decorator';
 import Roles from '../roles/enums/role.enum';
 import { AuthUserJwtGuard } from '../auth/guards/auth-user-jwt.guard';
 import { RoleGuard } from '../roles/guards/role.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import OpenAI from 'openai';
 
+@ApiBearerAuth()
 @ApiTags('Openai-api')
 @Controller('openai-api')
 @UseGuards(AuthUserJwtGuard, RoleGuard)
