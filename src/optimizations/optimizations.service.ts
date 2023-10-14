@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOptimizationDto } from './dto/create-optimization.dto';
+import { CreateOptimizationScrapingDto } from './dto/create-optimization-scraping.dto';
 import puppeteer from 'puppeteer';
 import { OpenaiApiService } from '../openai-api/openai-api.service';
+import { CreateOptimizationStyleDto } from './dto/create-optimization-style.dto';
 
 @Injectable()
 export class OptimizationsService {
@@ -41,14 +42,20 @@ export class OptimizationsService {
     const user = { darkmode: true, fontsize: '28px' };
 
     if (user.darkmode) {
-      request += 'crie um estilo modo escuro e adicione background-color: #333; color: #fff';
+      request +=
+        'Por favor, crie um estilo de modo escuro para o site. Defina o background-color do corpo do site e outros elementos como #333, e mude o color de todos os elementos de texto para branco';
     }
+
+    // if (user.darkmode) {
+    //   request +=
+    //     'crie um estilo modo escuro e adicione background-color: #333; color: #fff';
+    // }
 
     if (user.fontsize) {
       request += `deixe todas as fontes no tamanho ${user.fontsize}`;
     }
 
-    return `aplique os ajustes, me retorne apenas o código pronto para usar: ${request}\n nesse css: ${css}`;
+    return `aplique os ajustes, me retorne apenas o código pronto para usar: ${request}\n nesse css: ${css}, modifique apenas o necessario.`;
   }
 
   public async requestOptimizationToIA(css: string) {
@@ -56,9 +63,18 @@ export class OptimizationsService {
     return optimization?.choices[0].message.content.replace(/\n/g, '');
   }
 
-  public async createOptimization(dto: CreateOptimizationDto): Promise<any> {
+  public async createOptimizationByScraping(
+    dto: CreateOptimizationScrapingDto,
+  ): Promise<string> {
     const css = await this.getCSSFromLinksInHead(dto.url);
     const request = this.createOptimizationRequest(css);
+    return this.requestOptimizationToIA(request);
+  }
+
+  public async createOptimizationByStyle(
+    dto: CreateOptimizationStyleDto,
+  ): Promise<string> {
+    const request = this.createOptimizationRequest(dto.css);
     return this.requestOptimizationToIA(request);
   }
 }
