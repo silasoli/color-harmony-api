@@ -13,8 +13,8 @@ import Roles from '../roles/enums/role.enum';
 import { Role } from '../roles/decorators/roles.decorator';
 
 @ApiBearerAuth()
-@ApiTags('Optimizations')
-@Controller('optimizations')
+@ApiTags('User Optimizations')
+@Controller('api-user/optimizations')
 @UseGuards(AuthUserJwtGuard)
 export class OptimizationsController {
   constructor(private readonly optimizationsService: OptimizationsService) {}
@@ -26,7 +26,7 @@ export class OptimizationsController {
       'Otimização de interface pelo web scraping do openai api retornado com sucesso.',
   })
   @Post('scraping')
-  @Role([Roles.ADMIN])
+  @Role([Roles.ADMIN, Roles.USER])
   createOptimizationByScraping(
     @Body() dto: CreateOptimizationScrapingDto,
   ): Promise<string> {
@@ -37,10 +37,9 @@ export class OptimizationsController {
   @ApiResponse({
     status: 201,
     description: 'Otimização de interface pelo css retornado com sucesso.',
-    // type: string,
   })
   @Post('style')
-  @Role([Roles.ADMIN])
+  @Role([Roles.ADMIN, Roles.USER])
   createOptimizationByStyle(
     @Body() dto: CreateOptimizationStyleDto,
   ): Promise<string> {

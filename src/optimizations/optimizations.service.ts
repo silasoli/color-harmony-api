@@ -39,9 +39,9 @@ export class OptimizationsService {
 
   private createOptimizationRequest(css: string): string {
     let request: string;
-    const user = { darkmode: true, fontsize: '5rem' };
+    const user = { night_mode: true, fontsize: '5rem' };
 
-    if (user.darkmode) {
+    if (user.night_mode) {
       request +=
         'Por favor, crie um estilo de modo escuro para o site. Defina o background-color do corpo do site e outros elementos como #333, e mude o color de todos os elementos de texto para branco';
     }

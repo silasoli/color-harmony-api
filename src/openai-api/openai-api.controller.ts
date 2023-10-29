@@ -15,8 +15,8 @@ import OpenAI from 'openai';
 import { ChatCompletionDTO } from './dto/chat-completion-responde.dto';
 
 @ApiBearerAuth()
-@ApiTags('Openai-api')
-@Controller('openai-api')
+@ApiTags('Admin Openai-api')
+@Controller('api-admin/openai-api')
 @UseGuards(AuthUserJwtGuard, RoleGuard)
 export class OpenaiApiController {
   constructor(private readonly openaiApiService: OpenaiApiService) {}

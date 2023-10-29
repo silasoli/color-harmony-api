@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import Role from '../../roles/enums/role.enum';
+import { Configuration } from '../../configurations/schemas/configuration.entity';
 
 export type UserDocument = User & Document;
 @Schema()
@@ -25,6 +26,9 @@ export class User {
 
   @Prop({ type: mongoose.Schema.Types.Array })
   roles: Role[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Configuration' })
+  configuration: Configuration; 
 
   @Prop({ default: () => new Date() })
   createdAt: Date;

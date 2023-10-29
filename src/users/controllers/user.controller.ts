@@ -50,8 +50,8 @@ export const storage = diskStorage({
 });
 
 @ApiBearerAuth()
-@ApiTags('User')
-@Controller('user')
+@ApiTags('User Profile')
+@Controller('api-user/profile')
 @UseGuards(AuthUserJwtGuard, RoleGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
