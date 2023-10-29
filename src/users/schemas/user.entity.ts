@@ -27,9 +27,6 @@ export class User {
   @Prop({ type: mongoose.Schema.Types.Array })
   roles: Role[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Configuration' })
-  configuration: Configuration; 
-
   @Prop({ default: () => new Date() })
   createdAt: Date;
 }

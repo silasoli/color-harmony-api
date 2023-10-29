@@ -8,7 +8,11 @@ export type ConfigurationDocument = Configuration & Document;
 export class Configuration {
   _id?: mongoose.ObjectId | string;
 
-  user_id: mongoose.ObjectId | string;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  // user: User; 
+
+  @Prop({ required: true })
+  user_id: string;
 
   @Prop({ required: true, default: null })
   night_mode: boolean | null;

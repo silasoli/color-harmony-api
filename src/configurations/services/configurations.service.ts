@@ -13,10 +13,12 @@ export class ConfigurationsService {
   constructor(
     @InjectModel(Configuration.name)
     private configurationModel: Model<ConfigurationDocument>,
-  ) {}
+  ) { }
 
   public async findOne(user_id: string): Promise<ConfigurationResponseDto> {
     const configuration = await this.configurationModel.findOne({ user_id });
+
+    if (!configuration) return null;
     return new ConfigurationResponseDto(configuration);
   }
 
