@@ -11,6 +11,8 @@ import {
 import { CreateOptimizationStyleDto } from './dto/create-optimization-style.dto';
 import Roles from '../roles/enums/role.enum';
 import { Role } from '../roles/decorators/roles.decorator';
+import { UserRequestDTO } from '../common/dtos/user-request.dto';
+import { UserRequest } from '../auth/decorators/user-request.decorator';
 
 @ApiBearerAuth()
 @ApiTags('User Optimizations')
@@ -28,9 +30,13 @@ export class OptimizationsController {
   @Post('scraping')
   @Role([Roles.ADMIN, Roles.USER])
   createOptimizationByScraping(
+    @UserRequest() user: UserRequestDTO,
     @Body() dto: CreateOptimizationScrapingDto,
   ): Promise<string> {
-    return this.optimizationsService.createOptimizationByScraping(dto);
+    return this.optimizationsService.createOptimizationByScraping(
+      user._id,
+      dto,
+    );
   }
 
   @ApiOperation({ summary: 'Obter otimização de interface pelo css.' })
@@ -41,8 +47,9 @@ export class OptimizationsController {
   @Post('style')
   @Role([Roles.ADMIN, Roles.USER])
   createOptimizationByStyle(
+    @UserRequest() user: UserRequestDTO,
     @Body() dto: CreateOptimizationStyleDto,
   ): Promise<string> {
-    return this.optimizationsService.createOptimizationByStyle(dto);
+    return this.optimizationsService.createOptimizationByStyle(user._id, dto);
   }
 }

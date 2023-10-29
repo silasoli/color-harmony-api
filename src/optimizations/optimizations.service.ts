@@ -3,10 +3,14 @@ import { CreateOptimizationScrapingDto } from './dto/create-optimization-scrapin
 import puppeteer from 'puppeteer';
 import { OpenaiApiService } from '../openai-api/openai-api.service';
 import { CreateOptimizationStyleDto } from './dto/create-optimization-style.dto';
+import { ConfigurationsService } from '../configurations/services/configurations.service';
 
 @Injectable()
 export class OptimizationsService {
-  constructor(private readonly openaiApiService: OpenaiApiService) {}
+  constructor(
+    private readonly openaiApiService: OpenaiApiService,
+    private readonly configurationsService: ConfigurationsService,
+  ) {}
 
   public async getCSSFromLinksInHead(url: string): Promise<string> {
     const browser = await puppeteer.launch({
@@ -37,11 +41,14 @@ export class OptimizationsService {
     return cssText;
   }
 
-  private createOptimizationRequest(css: string): string {
+  private async createOptimizationRequest(
+    user_id: string,
+    css: string,
+  ): Promise<string> {
     let request: string;
-    const user = { night_mode: true, fontsize: '5rem' };
+    const config = await this.configurationsService.findOne(user_id);
 
-    if (user.night_mode) {
+    if (config.night_mode) {
       request +=
         'Por favor, crie um estilo de modo escuro para o site. Defina o background-color do corpo do site e outros elementos como #333, e mude o color de todos os elementos de texto para branco';
     }
@@ -51,8 +58,8 @@ export class OptimizationsService {
     //     'crie um estilo modo escuro e adicione background-color: #333; color: #fff';
     // }
 
-    if (user.fontsize) {
-      request += `deixe todas as fontes no tamanho ${user.fontsize}`;
+    if (config.font_size) {
+      request += `deixe todas as fontes no tamanho ${config.font_size}`;
     }
 
     return `aplique os ajustes, me retorne apenas o código pronto para usar: ${request}\n nesse css: ${css}`;
@@ -64,17 +71,19 @@ export class OptimizationsService {
   }
 
   public async createOptimizationByScraping(
+    user_id: string,
     dto: CreateOptimizationScrapingDto,
   ): Promise<string> {
     const css = await this.getCSSFromLinksInHead(dto.url);
-    const request = this.createOptimizationRequest(css);
+    const request = await this.createOptimizationRequest(user_id, css);
     return this.requestOptimizationToIA(request);
   }
 
   public async createOptimizationByStyle(
+    user_id: string,
     dto: CreateOptimizationStyleDto,
   ): Promise<string> {
-    const request = this.createOptimizationRequest(dto.css);
+    const request = await this.createOptimizationRequest(user_id, dto.css);
     return this.requestOptimizationToIA(request);
   }
 }

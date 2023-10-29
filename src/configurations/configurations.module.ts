@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigurationsService } from './services/configurations.service';
 import { ConfigurationsController } from './controllers/configurations.controller';
 import {
@@ -7,6 +7,7 @@ import {
 } from './schemas/configuration.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 
+@Global()
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -15,5 +16,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [ConfigurationsController],
   providers: [ConfigurationsService],
+  exports: [ConfigurationsService]
 })
 export class ConfigurationsModule {}
