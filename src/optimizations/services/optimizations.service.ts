@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOptimizationScrapingDto } from './dto/create-optimization-scraping.dto';
+import { CreateOptimizationScrapingDto } from '../dto/create-optimization-scraping.dto';
 import puppeteer from 'puppeteer';
-import { OpenaiApiService } from '../openai-api/openai-api.service';
-import { CreateOptimizationStyleDto } from './dto/create-optimization-style.dto';
-import { ConfigurationsService } from '../configurations/services/configurations.service';
+import { OpenaiApiService } from '../../openai-api/openai-api.service';
+import { CreateOptimizationStyleDto } from '../dto/create-optimization-style.dto';
+import { ConfigurationsService } from '../../configurations/services/configurations.service';
 
 @Injectable()
 export class OptimizationsService {
@@ -48,9 +48,19 @@ export class OptimizationsService {
     let request: string;
     const config = await this.configurationsService.findOne(user_id);
 
-    if (config.night_mode) {
+    if (config.night_mode && !config.daltonian) {
+      console.log('modo noturno - sem modo daltonico');
+
       request +=
         'Por favor, crie um estilo de modo escuro para o site. Defina o background-color do corpo do site e outros elementos como #333, e mude o color de todos os elementos de texto para branco';
+    }
+
+    if (config.night_mode && config.daltonian) {
+      console.log('modo noturno - com modo daltonico');
+    }
+
+    if (!config.night_mode && config.daltonian) {
+      console.log('sem modo noturno - com modo daltonico');
     }
 
     // if (user.darkmode) {

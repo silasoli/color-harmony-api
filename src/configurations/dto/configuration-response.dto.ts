@@ -3,11 +3,12 @@ import { Configuration } from '../schemas/configuration.entity';
 
 export class ConfigurationResponseDto {
   constructor(config: Configuration) {
-    const { _id, user_id, night_mode, font_size } = config;
+    const { _id, user_id, night_mode, daltonian, font_size } = config;
 
     return {
       _id: String(_id),
       user_id: String(user_id),
+      daltonian,
       night_mode,
       font_size,
     };
@@ -21,6 +22,9 @@ export class ConfigurationResponseDto {
 
   @ApiProperty({ required: false })
   night_mode: boolean;
+
+  @ApiProperty({ required: false })
+  daltonian: boolean;
 
   @ApiProperty({ required: false })
   font_size: string;

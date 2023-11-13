@@ -18,6 +18,9 @@ export class Configuration {
   night_mode: boolean | null;
 
   @Prop({ required: true, default: null })
+  daltonian: boolean | null;
+
+  @Prop({ required: true, default: null })
   font_size: string | null;
 
   @Prop({ default: () => new Date() })
