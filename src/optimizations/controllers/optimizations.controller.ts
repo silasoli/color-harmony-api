@@ -13,13 +13,13 @@ import Roles from '../../roles/enums/role.enum';
 import { Role } from '../../roles/decorators/roles.decorator';
 import { UserRequestDTO } from '../../common/dtos/user-request.dto';
 import { UserRequest } from '../../auth/decorators/user-request.decorator';
-import { MockQueryDto } from '../dto/mock-query.dto';
 import { MockOptimizationsService } from '../services/mock-optimizations.service';
+import { RoleGuard } from '../../roles/guards/role.guard';
 
 @ApiBearerAuth()
 @ApiTags('User Optimizations')
 @Controller('api-user/optimizations')
-@UseGuards(AuthUserJwtGuard)
+@UseGuards(AuthUserJwtGuard, RoleGuard)
 export class OptimizationsController {
   constructor(
     private readonly optimizationsService: OptimizationsService,
@@ -63,15 +63,15 @@ export class OptimizationsController {
   //   status: 201,
   //   description: 'Otimização de interface pelo css retornado com sucesso.',
   // })
-  @Get('mocks')
+  @Post('mocks')
   @Role([Roles.ADMIN, Roles.USER])
   getOptimizationMockByStyle(
-    @Query() query: MockQueryDto,
     @UserRequest() user: UserRequestDTO,
+    @Body() dto: CreateOptimizationScrapingDto,
   ): Promise<string> {
     return this.mockOptimizationsService.getMockOptimizationByURL(
       user._id,
-      query.url,
+      dto.url,
     );
   }
 }
