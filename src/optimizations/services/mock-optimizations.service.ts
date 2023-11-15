@@ -15,6 +15,7 @@ export class MockOptimizationsService {
   ): Promise<string> {
     const userConfig = await this.configurationsService.findOne(user_id);
     const styleOptions = this.getStyleOptionsByURL(url);
+    if (!userConfig) return styleOptions.default;
     return this.generateStyle(userConfig, styleOptions);
   }
 
@@ -44,6 +45,6 @@ export class MockOptimizationsService {
 
     if (daltonian) return (style += styleOptions.daltonian);
 
-    return style;
+    return `${style} ${styleOptions.default}`;
   }
 }

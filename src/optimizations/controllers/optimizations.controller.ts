@@ -58,11 +58,14 @@ export class OptimizationsController {
     return this.optimizationsService.createOptimizationByStyle(user._id, dto);
   }
 
-  // @ApiOperation({ summary: 'Obter otimização de interface pelo css.' })
-  // @ApiResponse({
-  //   status: 201,
-  //   description: 'Otimização de interface pelo css retornado com sucesso.',
-  // })
+  @ApiOperation({
+    summary: 'Obter mock de otimização de interface pela URL do site.',
+  })
+  @ApiResponse({
+    status: 201,
+    description:
+      'Mock de Otimização de interface pela URL retornado com sucesso.',
+  })
   @Post('mocks')
   @Role([Roles.ADMIN, Roles.USER])
   getOptimizationMockByStyle(
