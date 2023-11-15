@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import Role from '../../roles/enums/role.enum';
-import { Configuration } from '../../configurations/schemas/configuration.entity';
 
 export type UserDocument = User & Document;
 @Schema()
@@ -20,9 +19,6 @@ export class User {
 
   @Prop({ required: true, select: false })
   password: string;
-
-  @Prop({ required: true, default: true })
-  privy: boolean;
 
   @Prop({ type: mongoose.Schema.Types.Array })
   roles: Role[];
