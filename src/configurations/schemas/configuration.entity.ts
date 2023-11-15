@@ -8,9 +8,6 @@ export type ConfigurationDocument = Configuration & Document;
 export class Configuration {
   _id?: mongoose.ObjectId | string;
 
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  // user: User; 
-
   @Prop({ required: true })
   user_id: string;
 
@@ -21,7 +18,7 @@ export class Configuration {
   daltonian: boolean | null;
 
   @Prop({ required: true, default: null })
-  font_size: string | null;
+  font_size: number | null;
 
   @Prop({ default: () => new Date() })
   createdAt: Date;

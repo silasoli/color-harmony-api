@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateOrUpdateConfigurationDto {
   @ApiProperty({ required: false })
@@ -14,6 +14,6 @@ export class CreateOrUpdateConfigurationDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
-  font_size?: string | null;
+  @IsNumber()
+  font_size?: number | null;
 }

@@ -27,5 +27,5 @@ export class ConfigurationResponseDto {
   daltonian: boolean;
 
   @ApiProperty({ required: false })
-  font_size: string;
+  font_size: number;
 }
