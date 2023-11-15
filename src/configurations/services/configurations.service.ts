@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrUpdateConfigurationDto } from '../dto/create-or-update-configuration.dto';
 import {
   Configuration,
@@ -13,12 +13,21 @@ export class ConfigurationsService {
   constructor(
     @InjectModel(Configuration.name)
     private configurationModel: Model<ConfigurationDocument>,
-  ) { }
+  ) {}
 
   public async findOne(user_id: string): Promise<ConfigurationResponseDto> {
     const configuration = await this.configurationModel.findOne({ user_id });
 
     if (!configuration) return null;
+    return new ConfigurationResponseDto(configuration);
+  }
+
+  public async findOneByUserID(
+    user_id: string,
+  ): Promise<ConfigurationResponseDto> {
+    const configuration = await this.configurationModel.findOne({ user_id });
+
+    if (!configuration) throw new NotFoundException('Configurações não encontrada');
     return new ConfigurationResponseDto(configuration);
   }
 

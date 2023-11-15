@@ -32,7 +32,7 @@ export class ConfigurationsController {
   @Get()
   @Role([Roles.ADMIN, Roles.USER])
   findOne(@UserRequest() user: UserRequestDTO) {
-    return this.configurationsService.findOne(user._id);
+    return this.configurationsService.findOneByUserID(user._id);
   }
 
   @ApiOperation({ summary: 'Criar ou atualizar configurações do usuário' })
